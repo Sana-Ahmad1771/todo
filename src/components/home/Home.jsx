@@ -30,9 +30,23 @@ const Home = () => {
 
   // Edit Task
   const editTask = (key) => {
+    if (tasks[key].completed) return;
     setInputValue(tasks[key].text);
     setEditIndex(key);
   };
+  //  // Delete Task
+const deleteTask = (key) => {
+  const updatedTasks = tasks.filter((_, i) => i !== key);
+  setTasks(updatedTasks);
+  // If the deleted task was being edited
+  if (editIndex === key) {
+    setEditIndex(null);        // exit edit mode
+    setInputValue("");         // clear input
+  } else if (editIndex > key) {
+    // Adjust editIndex if a task before it was deleted
+    setEditIndex(editIndex - 1);
+  }
+};
 
   // Toggle Checkbox
   const toggleCheckbox = (key) => {
@@ -58,7 +72,7 @@ const Home = () => {
       {/* Add Button */}
       <button
         onClick={addTask}
-        className="bg-blue-500 text-white px-4 py-2 rounded-md self-end"
+        className="bg-blue-500 hover:bg-blue-600  text-white px-4 py-2 rounded-md self-end"
       >
         {/* applied ternary operator on button if input of edit is not empty then show button with update task else add task */}
         {editIndex !== null ? "Update Task" : "Add Task"}
@@ -67,12 +81,11 @@ const Home = () => {
       {/* Task List */}
       <ul className="">
         {tasks.map((task, key) => (
-          <li
-            key={key}
+          <li key={key}
             className={`flex justify-between items-center p-4 rounded-md ${
               task.completed ? "!line-through" : ""
-            }`}
-          >
+            }`}>
+
             <div className="flex items-center gap-3">
               <input
                 type="checkbox"
@@ -82,9 +95,13 @@ const Home = () => {
               />
               <span>{task.text}</span>
             </div>
-            <button className={``} onClick={() => editTask(key)}>
+             <div className="space-x-2.5">
+              <button onClick={() => editTask(key)} className="hover:bg-yellow-300">
               ✏️
             </button>
+            <button onClick={() => deleteTask(key)}
+              className="hover:bg-red-400">🗑️</button>
+              </div>
           </li>
         ))}
       </ul>
