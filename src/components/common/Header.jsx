@@ -1,5 +1,7 @@
 import React from "react";
 import VectorImg from "../../assets/Vector0.svg"
+import  DayIcon from "/src/assets/Day-icon.svg";
+import PersonImg from "/src/assets/Person-image.png"
 
 const Header = () => {
   return (
@@ -9,8 +11,8 @@ const Header = () => {
         <h1 className="text-[18px] font-bold">TaskMate</h1>
       </div>
       <div className="space-x-2.5 flex ">
-        <img src="/src/assets/Day-icon.svg" alt="dayicon" />
-        <img src="/src/assets/Person-image.png" alt="" />
+        <img src={DayIcon} alt="dayicon" />
+        <img src={PersonImg} alt="" />
       </div>
     </div>
   );
