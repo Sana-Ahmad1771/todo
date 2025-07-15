@@ -35,18 +35,18 @@ const Home = () => {
     setEditIndex(key);
   };
   //  // Delete Task
-const deleteTask = (key) => {
-  const updatedTasks = tasks.filter((_, i) => i !== key);
-  setTasks(updatedTasks);
-  // If the deleted task was being edited
-  if (editIndex === key) {
-    setEditIndex(null);        // exit edit mode
-    setInputValue("");         // clear input
-  } else if (editIndex > key) {
-    // Adjust editIndex if a task before it was deleted
-    setEditIndex(editIndex - 1);
-  }
-};
+  const deleteTask = (key) => {
+    const updatedTasks = tasks.filter((_, i) => i !== key);
+    setTasks(updatedTasks);
+    // If the deleted task was being edited
+    if (editIndex === key) {
+      setEditIndex(null); // exit edit mode
+      setInputValue(""); // clear input
+    } else if (editIndex > key) {
+      // Adjust editIndex if a task before it was deleted
+      setEditIndex(editIndex - 1);
+    }
+  };
 
   // Toggle Checkbox
   const toggleCheckbox = (key) => {
@@ -67,6 +67,11 @@ const deleteTask = (key) => {
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
         className="p-3 border border-gray-300 rounded-md"
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            addTask(); 
+          }
+        }}
       />
 
       {/* Add Button */}
@@ -81,11 +86,12 @@ const deleteTask = (key) => {
       {/* Task List */}
       <ul className="">
         {tasks.map((task, key) => (
-          <li key={key}
+          <li
+            key={key}
             className={`flex justify-between items-center p-4 rounded-md ${
               task.completed ? "!line-through" : ""
-            }`}>
-
+            }`}
+          >
             <div className="flex items-center gap-3">
               <input
                 type="checkbox"
@@ -95,13 +101,20 @@ const deleteTask = (key) => {
               />
               <span>{task.text}</span>
             </div>
-             <div className="space-x-2.5">
-              <button onClick={() => editTask(key)} className="hover:bg-yellow-300">
-              ✏️
-            </button>
-            <button onClick={() => deleteTask(key)}
-              className="hover:bg-red-400">🗑️</button>
-              </div>
+            <div className="space-x-2.5">
+              <button
+                onClick={() => editTask(key)}
+                className="hover:bg-yellow-300"
+              >
+                ✏️
+              </button>
+              <button
+                onClick={() => deleteTask(key)}
+                className="hover:bg-red-400"
+              >
+                🗑️
+              </button>
+            </div>
           </li>
         ))}
       </ul>
